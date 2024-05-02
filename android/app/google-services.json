@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "678672927365",
+    "firebase_url": "https://bank-app-3f916-default-rtdb.firebaseio.com",
+    "project_id": "bank-app-3f916",
+    "storage_bucket": "bank-app-3f916.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678672927365:android:18d3069da8f3b07de237ec",
+        "android_client_info": {
+          "package_name": "najot.bank.uz.bank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678672927365-0gs5tevknu07c7kln0mep0ddguhpssr2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDf_16XFTnOza08i3ro0gsA5i90UCjEIRs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678672927365-0gs5tevknu07c7kln0mep0ddguhpssr2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "678672927365-hub3bvuqrstf6luu0p7gsjbcl3kv0rne.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "najot.bank.uz.bank"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
