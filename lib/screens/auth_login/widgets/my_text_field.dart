@@ -26,6 +26,7 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: type,
+      controller: controller,
       onChanged: onChanged,
       style: const TextStyle(
         fontSize: 15,

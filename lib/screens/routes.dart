@@ -6,7 +6,9 @@ import 'package:bank/screens/payment/payment_screen.dart';
 import 'package:bank/screens/splash/splash_screen.dart';
 import 'package:bank/screens/tab/tab_screen.dart';
 import 'package:bank/screens/transfer/transfer_screen.dart';
+import 'package:bank/utils/colors/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppRoutes {
   static Route generateRoute(RouteSettings settings) {
@@ -26,12 +28,16 @@ class AppRoutes {
       case RouteNames.paymentRoute:
         return navigate(const PaymentScreen());
       case RouteNames.authRoute:
-        return navigate(const AuthScreen());
+        return navigate(
+          AuthScreen(
+            // currentEmail: settings.arguments as String? ?? "",
+          ),
+        );
 
-        case RouteNames.register:
-          return navigate(const RegisterScreen());
+      case RouteNames.register:
+        return navigate(const RegisterScreen());
 
-          case RouteNames.onBoardingRoute:
+      case RouteNames.onBoardingRoute:
         return navigate(const OnBoardingScreen());
 
       default:
@@ -60,3 +66,11 @@ class RouteNames {
   static const String transferRoute = "/transfer_route";
   static const String onBoardingRoute = "/on_boarding_route";
 }
+
+
+
+SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+  statusBarColor: AppColors.transparent,
+  statusBarBrightness: Brightness.dark,
+  statusBarIconBrightness: Brightness.dark,
+);
