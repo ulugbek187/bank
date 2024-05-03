@@ -1,3 +1,5 @@
+import 'package:bank/screens/auth/login/login_screen.dart';
+import 'package:bank/screens/auth/register/register_screen.dart';
 import 'package:bank/screens/auth_login/login_screen.dart';
 import 'package:bank/screens/auth_login/register_screen.dart';
 import 'package:bank/screens/no_internet/no_internet_screen.dart';
@@ -29,8 +31,8 @@ class AppRoutes {
         return navigate(const PaymentScreen());
       case RouteNames.authRoute:
         return navigate(
-          AuthScreen(
-            // currentEmail: settings.arguments as String? ?? "",
+          LoginScreen(
+            currentEmail: settings.arguments as String? ?? "",
           ),
         );
 

@@ -1,7 +1,10 @@
+import 'package:bank/screens/routes.dart';
 import 'package:flutter/material.dart';
 
 class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+  const HistoryScreen({
+    super.key,
+  });
 
   @override
   State<HistoryScreen> createState() => _HistoryScreenState();
@@ -9,7 +12,19 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold();
+  Widget build(
+      BuildContext context,
+      ) {
+    return AnnotatedRegion(
+      value: systemUiOverlayStyle,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            "History Screen",
+          ),
+        ),
+      ),
+    );
   }
 }

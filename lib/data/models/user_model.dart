@@ -6,6 +6,8 @@ class UserModel {
   final String imageUrl;
   final String phoneNumber;
   final String userId;
+  final String fcmToken;
+  final String authUUId;
 
   UserModel({
     required this.username,
@@ -15,6 +17,8 @@ class UserModel {
     required this.imageUrl,
     required this.phoneNumber,
     required this.email,
+    required this.fcmToken,
+    required this.authUUId,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +30,8 @@ class UserModel {
       imageUrl: json['imageUrl'] as String? ?? '',
       phoneNumber: json['phoneNumber'] as String? ?? '',
       email: json['email'] as String? ?? '',
+      fcmToken: json['fcm_token'] as String? ?? '',
+      authUUId: json['authUUId'] as String? ?? '',
     );
   }
 
@@ -38,6 +44,21 @@ class UserModel {
       'imageUrl': imageUrl,
       'phoneNumber': phoneNumber,
       'email': email,
+      "fcm_token": fcmToken,
+      "authUUId": authUUId,
+    };
+  }
+
+  Map<String, dynamic> toJsonForUpdate() {
+    return {
+      'username': username,
+      'lastname': lastname,
+      'password': password,
+      'imageUrl': imageUrl,
+      'phoneNumber': phoneNumber,
+      'email': email,
+      "fcm_token": fcmToken,
+      "authUUId": authUUId,
     };
   }
 
@@ -49,6 +70,8 @@ class UserModel {
     String? imageUrl,
     String? phoneNumber,
     String? email,
+    String? fcmToken,
+    String? authUUId,
   }) {
     return UserModel(
       username: username ?? this.username,
@@ -58,6 +81,8 @@ class UserModel {
       imageUrl: imageUrl ?? this.imageUrl,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,
+      fcmToken: fcmToken ?? this.fcmToken,
+      authUUId: authUUId ?? this.authUUId,
     );
   }
 
@@ -69,5 +94,7 @@ class UserModel {
     imageUrl: '',
     phoneNumber: '',
     email: '',
+    fcmToken: '',
+    authUUId: '',
   );
 }

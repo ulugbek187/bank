@@ -191,53 +191,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                       ),
-                      // TextField(
-                      //   controller: _userNameController,
-                      //   decoration: InputDecoration(hintText: "Username"),
-                      // ),
-                      // SizedBox(height: 30.h),
-                      // TextField(
-                      //   controller: _firstPasswordController,
-                      //   decoration: InputDecoration(hintText: "Password"),
-                      // ),
+
+                      SizedBox(height: 20.h,),
                       Center(
                         child: InkWell(
                           borderRadius: BorderRadius.circular(
                             50,
                           ),
                           onTap: () {
-                            // if (_formKey.currentState!.validate()) {
-                            //   context.read<AuthBloc>().add(
-                            //         RegisterUserEvent(
-                            //           userModel: UserModel(
-                            //             username: _userNameController.text,
-                            //             lastname: _userNameController.text,
-                            //             password:
-                            //                 _firstPasswordController.text,
-                            //             userId: "",
-                            //             imageUrl: '',
-                            //             phoneNumber:
-                            //                 _secondPasswordController.text,
-                            //             email: _emailController.text,
-                            //           ),
-                            //         ),
-                            //       );
-                            //   // ScaffoldMessenger.of(context).showSnackBar(
-                            //   //   SnackBar(
-                            //   //     backgroundColor: Colors.blue,
-                            //   //     duration: const Duration(
-                            //   //       seconds: 3,
-                            //   //     ),
-                            //   //     content: Text(
-                            //   //       "SUCCESS",
-                            //   //       textAlign: TextAlign.center,
-                            //   //       style: AppTextStyle.interSemiBold,
-                            //   //     ),
-                            //   //   ),
-                            //   // );
-                            // }
-                            if (_userNameController.text.isNotEmpty &&
-                                _firstPasswordController.text.isNotEmpty) {
+                            if (_formKey.currentState!.validate()) {
                               context.read<AuthBloc>().add(
                                     RegisterUserEvent(
                                       userModel: UserModel(
@@ -249,22 +211,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         phoneNumber:
                                             _secondPasswordController.text,
                                         email: _emailController.text,
+                                        fcmToken: '',
+                                        authUUId: '',
                                       ),
                                     ),
                                   );
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   SnackBar(
-                              //     backgroundColor: Colors.blue,
-                              //     duration: const Duration(
-                              //       seconds: 3,
-                              //     ),
-                              //     content: Text(
-                              //       "SUCCESS",
-                              //       textAlign: TextAlign.center,
-                              //       style: AppTextStyle.interSemiBold,
-                              //     ),
-                              //   ),
-                              // );
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.blue,
+                                  duration: const Duration(
+                                    seconds: 3,
+                                  ),
+                                  content: Text(
+                                    "SUCCESS",
+                                    textAlign: TextAlign.center,
+                                    style: AppTextStyle.interSemiBold,
+                                  ),
+                                ),
+                              );
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.blue,
+                                  duration: const Duration(
+                                    seconds: 3,
+                                  ),
+                                  content: Text(
+                                    "SUCCESS",
+                                    textAlign: TextAlign.center,
+                                    style: AppTextStyle.interSemiBold,
+                                  ),
+                                ),
+                              );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -320,7 +299,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 30.h),
+                      SizedBox(height: 20.h),
                       Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: 20.w,
@@ -349,15 +328,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               child: Center(
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.center,
                                   children: [
+
                                     SvgPicture.asset(
                                       AppImages.google,
                                       height: 30.w,
                                       width: 30.w,
                                     ),
                                     Text(
-                                      "Continue with Google",
+                                      " Google",
                                       style: AppTextStyle.interBold.copyWith(
                                         color: Colors.white,
                                       ),
