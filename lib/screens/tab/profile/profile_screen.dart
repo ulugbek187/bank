@@ -91,21 +91,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //   height: 50.h,
                     //   width: 100.w,
                     // ),
-                    Text(
-                      "Your Gmail Link: | ${state.userModel.email}",
-                      style: AppTextStyle.interSemiBold,
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(20.w),
+                      ),
+                      child: Text(
+                        "Your Gmail Link: | ${state.userModel.email}",
+                        style: AppTextStyle.interSemiBold,
+                      ),
                     ),
-                    Text(
-                      "Your First Name: | ${state.userModel.username}",
-                      style: AppTextStyle.interSemiBold,
+
+                    SizedBox(height: 10.h,),
+                    Container(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent,
+                        borderRadius: BorderRadius.circular(20.w),
+                      ),
+                      child: Text(
+                        "Your First Name: | ${state.userModel.username}",
+                        style: AppTextStyle.interSemiBold,
+                      ),
                     ),
-                    Text(
-                      "Your Last Name: | ${state.userModel.lastname}",
-                      style: AppTextStyle.interSemiBold,
+                    SizedBox(height: 10.h,),
+
+                    Container(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent,
+                        borderRadius: BorderRadius.circular(20.w),
+                      ),
+                      child: Text(
+                        "Your Last Name: | ${state.userModel.lastname}",
+                        style: AppTextStyle.interSemiBold,
+                      ),
                     ),
-                    Text(
-                      "Your password: | ${state.userModel.password}",
-                      style: AppTextStyle.interSemiBold,
+                    SizedBox(height: 10.h,),
+
+                    Container(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(20.w),
+                      ),
+                      child: Text(
+                        "Your password: | ${state.userModel.password}",
+                        style: AppTextStyle.interSemiBold,
+                      ),
                     ),
                   ],
                 ),
