@@ -1,6 +1,7 @@
-import 'package:bank/data/models/form_status.dart';
-import 'package:bank/data/models/user_model.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../data/models/form_status.dart';
+import '../../data/models/user_model.dart';
 
 class UserProfileState extends Equatable {
   final UserModel userModel;
@@ -20,13 +21,14 @@ class UserProfileState extends Equatable {
     FormStatus? formStatus,
     String? errorMessage,
     String? statusMessage,
-  }) =>
-      UserProfileState(
-        formStatus: formStatus ?? this.formStatus,
-        userModel: userModel ?? this.userModel,
-        errorMessage: errorMessage ?? this.errorMessage,
-        statusMessage: statusMessage ?? this.statusMessage,
-      );
+  }) {
+    return UserProfileState(
+      formStatus: formStatus ?? this.formStatus,
+      userModel: userModel ?? this.userModel,
+      errorMessage: errorMessage ?? this.errorMessage,
+      statusMessage: statusMessage ?? this.statusMessage,
+    );
+  }
 
   @override
   List<Object?> get props => [

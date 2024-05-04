@@ -22,18 +22,22 @@ class LoginUserEvent extends AuthEvent {
 
   @override
   List<Object?> get props => [
-    username,
-    password,
-  ];
+        username,
+        password,
+      ];
 }
 
 class RegisterUserEvent extends AuthEvent {
   final UserModel userModel;
 
-  RegisterUserEvent({required this.userModel});
+  RegisterUserEvent({
+    required this.userModel,
+  });
 
   @override
-  List<Object?> get props => [userModel];
+  List<Object?> get props => [
+        userModel,
+      ];
 }
 
 class LogOutUserEvent extends AuthEvent {

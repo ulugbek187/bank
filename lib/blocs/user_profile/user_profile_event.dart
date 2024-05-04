@@ -1,5 +1,6 @@
-import 'package:bank/data/models/user_model.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../data/models/user_model.dart';
 
 abstract class UserProfileEvent extends Equatable {}
 
@@ -43,16 +44,8 @@ class DeleteUserEvent extends UserProfileEvent {
 }
 
 class GetCurrentUserEvent extends UserProfileEvent {
-  GetCurrentUserEvent({
-    required this.uuid,
-  });
-
-  final String uuid;
-
   @override
-  List<Object?> get props => [
-        uuid,
-      ];
+  List<Object?> get props => [];
 }
 
 class GetUserByDocIdEvent extends UserProfileEvent {

@@ -1,16 +1,18 @@
-import 'package:bank/data/models/user_model.dart';
-import 'package:bank/data/net_work/net_work.dart';
-import 'package:bank/utils/constants/app_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../../../utils/constants/app_constants.dart';
+import '../../models/user_model.dart';
+import '../../net_work/net_work.dart';
 
 class UserProfileRepo {
   Future<NetworkResponse> insertUser(UserModel userModel) async {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection(
-            AppConstants.users,
-          )
+        AppConstants.users,
+      )
           .get();
 
       List<UserModel> users = querySnapshot.docs
@@ -28,18 +30,18 @@ class UserProfileRepo {
       if (!isExists) {
         DocumentReference documentReference = await FirebaseFirestore.instance
             .collection(
-              AppConstants.users,
-            )
+          AppConstants.users,
+        )
             .add(
-              userModel.toJson(),
-            );
+          userModel.toJson(),
+        );
         await FirebaseFirestore.instance
             .collection(
-              AppConstants.users,
-            )
+          AppConstants.users,
+        )
             .doc(
-              documentReference.id,
-            )
+          documentReference.id,
+        )
             .update({
           "userId": documentReference.id,
         });
@@ -54,7 +56,7 @@ class UserProfileRepo {
       );
       return NetworkResponse(
         errorCode: error.code,
-        errorText: error.message ?? '',
+        errorText: error.message ?? "NOMA'LUM XATOLIK!!!",
       );
     }
   }
@@ -63,12 +65,12 @@ class UserProfileRepo {
     try {
       await FirebaseFirestore.instance
           .collection(
-            AppConstants.users,
-          )
-          .doc()
+        AppConstants.users,
+      )
+          .doc(userModel.userId)
           .update(
-            userModel.toJsonForUpdate(),
-          );
+        userModel.toJsonForUpdate(),
+      );
 
       return NetworkResponse(
         data: "success",
@@ -79,20 +81,20 @@ class UserProfileRepo {
       );
       return NetworkResponse(
         errorCode: error.code,
-        errorText: error.message ?? '',
+        errorText: error.message ?? "NOMA'LUM XATOLIK!!!",
       );
     }
   }
 
-  Future<NetworkResponse> deleteUser(String uuid) async {
+  Future<NetworkResponse> deleteUser(String docID) async {
     try {
       await FirebaseFirestore.instance
           .collection(
-            AppConstants.users,
-          )
+        AppConstants.users,
+      )
           .doc(
-            uuid,
-          )
+        docID,
+      )
           .delete();
 
       return NetworkResponse(
@@ -113,15 +115,17 @@ class UserProfileRepo {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection(
-            AppConstants.users,
-          )
+        AppConstants.users,
+      )
           .doc(
-            docID,
-          )
+        docID,
+      )
           .get();
 
       return NetworkResponse(
-        data: documentSnapshot.data() as Map<String, dynamic>,
+        data: UserModel.fromJson(
+          documentSnapshot.data() as Map<String, dynamic>,
+        ),
       );
     } on FirebaseException catch (error) {
       debugPrint(
@@ -129,26 +133,30 @@ class UserProfileRepo {
       );
       return NetworkResponse(
         errorCode: error.code,
-        errorText: error.message ?? '',
+        errorText: error.message ?? "NOMA'LUM XATOLIK!!!",
       );
     }
   }
 
-  Future<NetworkResponse> getUserByUUId(String uuid) async {
+  Future<NetworkResponse> getUserByUUId() async {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection(
-            AppConstants.users,
-          )
-          .where("authUUId", isEqualTo: uuid)
+          .collection(AppConstants.users)
+          .where("authUUId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
 
       List<UserModel> users = querySnapshot.docs
-          .map((e) => UserModel.fromJson(e.data() as Map<String, dynamic>))
+          .map(
+            (e) => UserModel.fromJson(
+          e.data() as Map<String, dynamic>,
+        ),
+      )
           .toList();
 
+      methodPrint(
+          "\$\$\$\$\$\$\nTHIS IS USERS IS LENGTH: ${users.length}\n\$\$\$\$\$\$");
       return NetworkResponse(
-        data: users.isEmpty ? UserModel.initial() : users.first,
+        data: users.isEmpty ? UserModel.initial() : users[0],
       );
     } on FirebaseException catch (error) {
       debugPrint(
@@ -160,4 +168,8 @@ class UserProfileRepo {
       );
     }
   }
+}
+
+void methodPrint(dynamic data) {
+  debugPrint("\$\$\$\$\$\$\n$data\n\$\$\$\$\$\$");
 }

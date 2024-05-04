@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../utility_function/functions.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
     super.key,
@@ -116,24 +118,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
                               context.read<AuthBloc>().add(
-                                    LoginUserEvent(
-                                      username: _userNameController.text,
-                                      password: _passwordController.text,
-                                    ),
-                                  );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.red,
-                                  duration: const Duration(
-                                    seconds: 3,
-                                  ),
-                                  content: Text(
-                                    textAlign: TextAlign.center,
-                                    style: AppTextStyle.interSemiBold,
-                                    "PLEASE ENTER ALL LINES CORRECTLY AND COMPLETELY!!!",
-                                  ),
+                                LoginUserEvent(
+                                  username: _userNameController.text,
+                                  password: _passwordController.text,
                                 ),
+                              );
+                            } else {
+                              showSnackBar(
+                                context: context,
+                                message:
+                                "PLEASE ENTER ALL LINES CORRECTLY AND COMPLETELY!!!",
                               );
                             }
                           },

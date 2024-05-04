@@ -1,6 +1,8 @@
 import 'package:bank/blocs/auth/auth_bloc.dart';
 import 'package:bank/blocs/auth/auth_event.dart';
 import 'package:bank/blocs/auth/auth_state.dart';
+import 'package:bank/blocs/user_profile/user_profile_bloc.dart';
+import 'package:bank/blocs/user_profile/user_profile_event.dart';
 import 'package:bank/data/models/form_status.dart';
 import 'package:bank/data/models/user_model.dart';
 import 'package:bank/screens/auth_login/widgets/my_text_field.dart';
@@ -200,22 +202,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
+                             UserModel userModel = UserModel(
+                                username: _userNameController.text,
+                                lastname: _userNameController.text,
+                                password: _firstPasswordController.text,
+                                userId: "",
+                                imageUrl: '',
+                                phoneNumber:
+                                _secondPasswordController.text,
+                                email: _emailController.text,
+                                fcmToken: '',
+                                authUUId: '',
+                              );
                               context.read<AuthBloc>().add(
                                     RegisterUserEvent(
-                                      userModel: UserModel(
-                                        username: _userNameController.text,
-                                        lastname: _userNameController.text,
-                                        password: _firstPasswordController.text,
-                                        userId: "",
-                                        imageUrl: '',
-                                        phoneNumber:
-                                            _secondPasswordController.text,
-                                        email: _emailController.text,
-                                        fcmToken: '',
-                                        authUUId: '',
-                                      ),
+                                      userModel: userModel,
                                     ),
                                   );
+
+                              context.read<UserProfileBloc>().add(AddUserEvent(userModel: userModel,),);
+
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

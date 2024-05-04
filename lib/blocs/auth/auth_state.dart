@@ -1,6 +1,7 @@
-import 'package:bank/data/models/form_status.dart';
-import 'package:bank/data/models/user_model.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../data/models/form_status.dart';
+import '../../data/models/user_model.dart';
 
 class AuthState extends Equatable {
   final String errorMessage;
@@ -31,9 +32,9 @@ class AuthState extends Equatable {
 
   @override
   List<Object?> get props => [
-    statusMessage,
-    errorMessage,
-    formStatus,
-    userModel,
-  ];
+        statusMessage,
+        errorMessage,
+        formStatus,
+        userModel,
+      ];
 }

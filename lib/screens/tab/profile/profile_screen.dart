@@ -1,16 +1,15 @@
-import 'package:bank/blocs/auth/auth_bloc.dart';
-import 'package:bank/blocs/auth/auth_event.dart';
-import 'package:bank/blocs/auth/auth_state.dart';
 import 'package:bank/blocs/user_profile/user_profile_bloc.dart';
 import 'package:bank/blocs/user_profile/user_profile_event.dart';
 import 'package:bank/blocs/user_profile/user_profile_state.dart';
-import 'package:bank/data/models/form_status.dart';
-import 'package:bank/screens/routes.dart';
-import 'package:bank/utils/styles/app_text_style.dart';
 import 'package:bank_app/bank_app.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../blocs/auth/auth_bloc.dart';
+import '../../../blocs/auth/auth_state.dart';
+import '../../../data/models/form_status.dart';
+import '../../../utils/styles/app_text_style.dart';
+import '../../routes.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
@@ -23,24 +22,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
-  void initState() {
-    context.read<UserProfileBloc>().add(
-      GetUserByDocIdEvent(
-        docId: FirebaseAuth.instance.currentUser!.uid,
-      ),
-    );
-    context.read<UserProfileBloc>().add(
-      GetCurrentUserEvent(
-        uuid: FirebaseAuth.instance.currentUser!.uid,
-      ),
-    );
-    super.initState();
-  }
-
-  @override
   Widget build(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     return AnnotatedRegion(
       value: systemUiOverlayStyle,
       child: Scaffold(
@@ -52,24 +36,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     RouteNames.authRoute,
-                        (route) => false,
+                    (route) => false,
                   );
                 }
               },
               child: IconButton(
                 onPressed: () {
-                  context.read<AuthBloc>().add(
-                    LogOutUserEvent(),
-                  );
+                  Navigator.pushNamed(context, RouteNames.editProfileRoute,
+                      arguments: () {
+                    BlocProvider.of<UserProfileBloc>(context).add(
+                      GetCurrentUserEvent(),
+                    );
+                  });
                 },
                 icon: Icon(
-                  Icons.logout,
+                  Icons.edit,
                   size: 20.w,
                   color: Colors.black,
                 ),
               ),
             ),
-           SizedBox(height: 20.h,),
+            SizedBox(
+              height: 20.h,
+            ),
           ],
           centerTitle: true,
           title: const Text(
@@ -78,39 +67,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         body: BlocBuilder<UserProfileBloc, UserProfileState>(
           builder: (context, state) {
-            debugPrint(
-                "\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$${state.userModel.username}, ${state.userModel.email}");
-            return Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10.h,
-                  ),
-                  child: Text(
-                    state.userModel.email,
-                    style: AppTextStyle.interSemiBold,
-                  ),
+            if (state.formStatus == FormStatus.error) {
+              return Center(
+                child: Text(
+                  state.errorMessage,
+                  style: AppTextStyle.interBold,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10.h,
-                  ),
-                  child: Text(
-                    state.userModel.username,
-                    style: AppTextStyle.interSemiBold,
-                  ),
+              );
+            }
+            if (state.formStatus == FormStatus.loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state.formStatus == FormStatus.success) {
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Image.network(
+                    //   state.userModel.imageUrl,
+                    //   height: 50.h,
+                    //   width: 100.w,
+                    // ),
+                    Text(
+                      "Your Gmail Link: | ${state.userModel.email}",
+                      style: AppTextStyle.interSemiBold,
+                    ),
+                    Text(
+                      "Your First Name: | ${state.userModel.username}",
+                      style: AppTextStyle.interSemiBold,
+                    ),
+                    Text(
+                      "Your Last Name: | ${state.userModel.lastname}",
+                      style: AppTextStyle.interSemiBold,
+                    ),
+                    Text(
+                      "Your password: | ${state.userModel.password}",
+                      style: AppTextStyle.interSemiBold,
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10.h,
-                  ),
-                  child: Text(
-                    state.userModel.lastname,
-                    style: AppTextStyle.interSemiBold,
-                  ),
-                ),
-              ],
-            );
+              );
+            }
+            return const SizedBox();
           },
         ),
       ),

@@ -166,7 +166,7 @@ class AuthViewModel extends ChangeNotifier {
         Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
       }
     } catch (e) {
-      print('Error signing in with Google: $e');
+      debugPrint('Error signing in with Google: $e');
       // Handle the error here
     }
   }

@@ -1,8 +1,7 @@
-import 'package:bank/data/models/exseptions.dart';
-import 'package:bank/data/net_work/net_work.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../models/exseptions.dart';
+import '../net_work/net_work.dart';
 
 class AuthRepository {
   Future<NetworkResponse> loginInWithEmailAndPassword({
@@ -32,10 +31,6 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-
-    debugPrint("EMAIL:$email");
-    debugPrint("PASSWORD:$password");
-
     try {
       UserCredential userCredential =
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -49,7 +44,6 @@ class AuthRepository {
         errorCode: e.code,
       );
     } catch (_) {
-      debugPrint(_.toString(),);
       return NetworkResponse(
         errorText: "An unknown exception occurred",
       );
