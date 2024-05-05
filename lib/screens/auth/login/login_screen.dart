@@ -1,7 +1,10 @@
 import 'package:bank/blocs/auth/auth_bloc.dart';
 import 'package:bank/blocs/auth/auth_event.dart';
 import 'package:bank/blocs/auth/auth_state.dart';
+import 'package:bank/blocs/user_profile/user_profile_bloc.dart';
+import 'package:bank/blocs/user_profile/user_profile_event.dart';
 import 'package:bank/data/models/form_status.dart';
+import 'package:bank/data/models/user_model.dart';
 import 'package:bank/screens/auth_login/widgets/my_text_field.dart';
 import 'package:bank/screens/routes.dart';
 import 'package:bank/utils/colors/app_colors.dart';
@@ -118,16 +121,32 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
                               context.read<AuthBloc>().add(
-                                LoginUserEvent(
+                                    LoginUserEvent(
+                                      username: _userNameController.text,
+                                      password: _passwordController.text,
+                                    ),
+                                  );
+                              UserModel userModel = UserModel(
                                   username: _userNameController.text,
+                                  lastname: state.userModel.lastname,
                                   password: _passwordController.text,
-                                ),
-                              );
+                                  userId: state.userModel.userId,
+                                  imageUrl: state.userModel.imageUrl,
+                                  phoneNumber: state.userModel.phoneNumber,
+                                  email: state.userModel.email,
+                                  fcmToken: state.userModel.fcmToken,
+                                  authUUId: state.userModel.authUUId);
+
+                              context.read<UserProfileBloc>().add(
+                                    AddUserEvent(
+                                      userModel: userModel,
+                                    ),
+                                  );
                             } else {
                               showSnackBar(
                                 context: context,
                                 message:
-                                "PLEASE ENTER ALL LINES CORRECTLY AND COMPLETELY!!!",
+                                    "PLEASE ENTER ALL LINES CORRECTLY AND COMPLETELY!!!",
                               );
                             }
                           },

@@ -17,17 +17,14 @@ class LoginInWithEmailAndPasswordFailure implements Exception {
         return LoginInWithEmailAndPasswordFailure(
           "email is not found",
         );
-
       case 'wrong-password':
         return LoginInWithEmailAndPasswordFailure(
           "incorrect password",
         );
-
       case 'invalid-credential':
         return LoginInWithEmailAndPasswordFailure(
           "user not found",
         );
-
       default:
         return LoginInWithEmailAndPasswordFailure(code);
     }
@@ -55,17 +52,14 @@ class SignUpWithEmailAndPasswordFailure implements Exception {
         return SignUpWithEmailAndPasswordFailure(
           "an account already exists for that email..",
         );
-
       case 'operation-not-allowed':
         return SignUpWithEmailAndPasswordFailure(
           "operation is not allowed",
         );
-
       case 'week-password':
         return SignUpWithEmailAndPasswordFailure(
           "please enter a stronger password",
         );
-
       default:
         return SignUpWithEmailAndPasswordFailure();
     }
@@ -89,7 +83,6 @@ class LoginWithGoogleFailure implements Exception {
         return LoginWithGoogleFailure(
           "the credential received is malformed or has expired",
         );
-
       default:
         return LoginWithGoogleFailure();
     }
