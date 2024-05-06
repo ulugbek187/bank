@@ -1,14 +1,12 @@
-import 'package:bank/blocs/user_profile/user_profile_bloc.dart';
-import 'package:bank/blocs/user_profile/user_profile_event.dart';
-import 'package:bank/blocs/user_profile/user_profile_state.dart';
 import 'package:bank_app/bank_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../blocs/auth/auth_bloc.dart';
-import '../../../blocs/auth/auth_state.dart';
-import '../../../data/models/form_status.dart';
-import '../../../utils/styles/app_text_style.dart';
+import '../../../blocs/auth/auth_event.dart';
+import '../../../blocs/user_profile/user_profile_bloc.dart';
+import '../../../blocs/user_profile/user_profile_state.dart';
+import '../../../data/repositories/user_profile_repo/user_profile_repo.dart';
+import '../../../utils/colors/app_colors.dart';
 import '../../routes.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -25,133 +23,208 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(
     BuildContext context,
   ) {
-    return AnnotatedRegion(
-      value: systemUiOverlayStyle,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            BlocListener<AuthBloc, AuthState>(
-              listener: (context, state) {
-                if (state.formStatus == FormStatus.unauthenticated) {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    RouteNames.authRoute,
-                    (route) => false,
-                  );
-                }
-              },
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, RouteNames.editProfileRoute,
-                      arguments: () {
-                    BlocProvider.of<UserProfileBloc>(context).add(
-                      GetCurrentUserEvent(),
-                    );
-                  });
-                },
-                icon: Icon(
-                  Icons.edit,
-                  size: 20.w,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, RouteNames.editProfileRoute,
+                  arguments: context.read<UserProfileBloc>().state.userModel);
+            },
+            icon: Icon(
+              Icons.edit,
+              size: 24.w,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RouteNames.authRoute, (route) => false);
+              context.read<AuthBloc>().add(LogOutUserEvent());
+            },
+            icon: Icon(
+              Icons.exit_to_app,
+              size: 24.w,
+            ),
+          ),
+        ],
+      ),
+      body: BlocBuilder<UserProfileBloc, UserProfileState>(
+        builder: (BuildContext context, UserProfileState state) {
+          methodPrint(
+            '============|${state.userModel.username}|============',
+          );
+          methodPrint(
+            '============|${state.userModel.lastname}|============',
+          );
+          methodPrint(
+            '============|${state.userModel.password}|============',
+          );
+          methodPrint(
+            '============|${state.userModel.phoneNumber}|============',
+          );
+          methodPrint(
+            '============|${state.userModel.email}|============',
+          );
+          methodPrint(
+            '============|${state.userModel.userId}|============',
+          );
+          methodPrint(
+            '============|${state.userModel.imageUrl}|============',
+          );
+          return Column(
+            children: [
+              SizedBox(
+                height: 20.w,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: state.userModel.imageUrl.isNotEmpty
+                    ? Container(
+                        height: 100.h,
+                        width: 100.w,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: CircleAvatar(
+                          radius: 60.w,
+                          backgroundImage: NetworkImage(
+                            state.userModel.imageUrl,
+                          ),
+                          backgroundColor: Colors.transparent,
+                        ),
+                      )
+                    : Container(
+                        height: 100.h,
+                        width: 100.w,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey,
+                        ),
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.black,
+                          size: 80.w,
+                        ),
+                      ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Text(
+                state.userModel.lastname,
+                style: TextStyle(
                   color: Colors.black,
+                  fontSize: 24.w,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-          ],
-          centerTitle: true,
-          title: const Text(
-            "Profile Screen",
-          ),
-        ),
-        body: BlocBuilder<UserProfileBloc, UserProfileState>(
-          builder: (context, state) {
-            if (state.formStatus == FormStatus.error) {
-              return Center(
-                child: Text(
-                  state.errorMessage,
-                  style: AppTextStyle.interBold,
+              SizedBox(
+                height: 20.h,
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(
+                    left: 10.w,
+                    right: 10.w,
+                    top: 30.h,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          width: double.infinity,
+                        ),
+                        Text(
+                          "Email: ${state.userModel.email}",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 18.w,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Text(
+                          "Last name: ${state.userModel.lastname}",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 18.w,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Text(
+                          "First name: ${state.userModel.username}",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 18.w,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Text(
+                          "Phone number: ${state.userModel.phoneNumber}",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 18.w,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                    SizedBox(height: 150,),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              RouteNames.securityRoute,
+                            );
+                          },
+                          child: Container(
+                            width: width,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 4.w,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(
+                                8,
+                              ),
+                              border: Border.all(
+                                width: 3.w,
+                                color: AppColors.black.withOpacity(
+                                  0.4,
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              "Security",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: AppColors.black,
+                                fontSize: 24.w,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              );
-            }
-            if (state.formStatus == FormStatus.loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state.formStatus == FormStatus.success) {
-              return Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Image.network(
-                    //   state.userModel.imageUrl,
-                    //   height: 50.h,
-                    //   width: 100.w,
-                    // ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(20.w),
-                      ),
-                      child: Text(
-                        "Your Gmail Link: | ${state.userModel.email}",
-                        style: AppTextStyle.interSemiBold,
-                      ),
-                    ),
-
-                    SizedBox(height: 10.h,),
-                    Container(
-                      padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                      decoration: BoxDecoration(
-                        color: Colors.greenAccent,
-                        borderRadius: BorderRadius.circular(20.w),
-                      ),
-                      child: Text(
-                        "Your First Name: | ${state.userModel.username}",
-                        style: AppTextStyle.interSemiBold,
-                      ),
-                    ),
-                    SizedBox(height: 10.h,),
-
-                    Container(
-                      padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                      decoration: BoxDecoration(
-                        color: Colors.greenAccent,
-                        borderRadius: BorderRadius.circular(20.w),
-                      ),
-                      child: Text(
-                        "Your Last Name: | ${state.userModel.lastname}",
-                        style: AppTextStyle.interSemiBold,
-                      ),
-                    ),
-                    SizedBox(height: 10.h,),
-
-                    Container(
-                      padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                      decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.circular(20.w),
-                      ),
-                      child: Text(
-                        "Your password: | ${state.userModel.password}",
-                        style: AppTextStyle.interSemiBold,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-            return const SizedBox();
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

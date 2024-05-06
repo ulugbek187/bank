@@ -3,18 +3,18 @@ import 'package:bank/screens/auth/register/register_screen.dart';
 import 'package:bank/screens/no_internet/no_internet_screen.dart';
 import 'package:bank/screens/on_boarding/on_boarding_screen.dart';
 import 'package:bank/screens/payment/payment_screen.dart';
+import 'package:bank/screens/security/security_screen.dart';
 import 'package:bank/screens/splash/splash_screen.dart';
 import 'package:bank/screens/tab/tab_screen.dart';
 import 'package:bank/screens/transfer/transfer_screen.dart';
 import 'package:bank/utils/colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../first_method/confirm_pin_screen.dart';
-import '../first_method/entry_pin_screen.dart';
-import '../first_method/second_method/biometric_screen.dart';
-import '../first_method/set_pin_screen.dart';
 import 'edit_profile/edit_profile.dart';
+import 'local_auth/first_method/confirm_pin_screen.dart';
+import 'local_auth/first_method/entry_pin_screen.dart';
+import 'local_auth/first_method/set_pin_screen.dart';
+import 'local_auth/second_method/biometric_screen.dart';
 
 class AppRoutes {
   static Route generateRoute(RouteSettings settings) {
@@ -50,14 +50,15 @@ class AppRoutes {
         return navigate(const SetPinScreen());
       case RouteNames.confirmPinRoute:
         return navigate(ConfirmPinScreen(
-          previousPin: settings.arguments as String,
+            pin: settings.arguments as String,
         ));
       case RouteNames.entryPinRoute:
         return navigate(const EntryPinScreen());
       case RouteNames.touchId:
         return navigate(const BiometricScreen());
 
-
+      case RouteNames.securityRoute:
+        return navigate(const SecurityScreen());
       case RouteNames.register:
         return navigate(const RegisterScreen());
 
@@ -81,6 +82,7 @@ class AppRoutes {
 }
 
 class RouteNames {
+
   static const String splashScreen = "/";
   static const String editProfileRoute = "/edit_profile_route";
   static const String tabRoute = "/tab_route";
@@ -94,6 +96,8 @@ class RouteNames {
   static const String confirmPinRoute = "/confirmPinRoute_route";
   static const String entryPinRoute = "/entryPinRoute_route";
   static const String touchId = "/touchId_route";
+  static const String securityRoute = "/security_route";
+
 }
 
 
