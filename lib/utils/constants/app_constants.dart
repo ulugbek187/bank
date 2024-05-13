@@ -7,6 +7,8 @@ class AppConstants {
   static RegExp phoneRegExp = RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
 
   static const String users = "users";
+  static String cards = "cards";
+  static String cardsDb = "cards_db";
   static String clientID =
       "678672927365-0gs5tevknu07c7kln0mep0ddguhpssr2.apps.googleusercontent.com";
 }

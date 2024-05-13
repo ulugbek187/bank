@@ -153,8 +153,6 @@ class UserProfileRepo {
       )
           .toList();
 
-      methodPrint(
-          "\$\$\$\$\$\$\nTHIS IS USERS IS LENGTH: ${users.length}\n\$\$\$\$\$\$");
       return NetworkResponse(
         data: users.isEmpty ? UserModel.initial() : users[0],
       );
@@ -170,6 +168,6 @@ class UserProfileRepo {
   }
 }
 
-void methodPrint(dynamic data) {
-  debugPrint("\$\$\$\$\$\$\n$data\n\$\$\$\$\$\$");
-}
+// void methodPrint(dynamic data) {
+//   debugPrint("\$\$\$\$\$\$\n$data\n\$\$\$\$\$\$");
+// }

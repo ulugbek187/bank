@@ -78,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: Center(
           child: Image.asset(
-            AppImages.history,
+            AppImages.login,
           ),
         ),
       ),

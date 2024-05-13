@@ -5,7 +5,6 @@ import '../../../blocs/auth/auth_bloc.dart';
 import '../../../blocs/auth/auth_event.dart';
 import '../../../blocs/user_profile/user_profile_bloc.dart';
 import '../../../blocs/user_profile/user_profile_state.dart';
-import '../../../data/repositories/user_profile_repo/user_profile_repo.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../routes.dart';
 
@@ -29,8 +28,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, RouteNames.editProfileRoute,
-                  arguments: context.read<UserProfileBloc>().state.userModel);
+              Navigator.pushNamed(
+                context,
+                RouteNames.editProfileRoute,
+                arguments: context.read<UserProfileBloc>().state.userModel,
+              );
             },
             icon: Icon(
               Icons.edit,
@@ -52,27 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: BlocBuilder<UserProfileBloc, UserProfileState>(
         builder: (BuildContext context, UserProfileState state) {
-          methodPrint(
-            '============|${state.userModel.username}|============',
-          );
-          methodPrint(
-            '============|${state.userModel.lastname}|============',
-          );
-          methodPrint(
-            '============|${state.userModel.password}|============',
-          );
-          methodPrint(
-            '============|${state.userModel.phoneNumber}|============',
-          );
-          methodPrint(
-            '============|${state.userModel.email}|============',
-          );
-          methodPrint(
-            '============|${state.userModel.userId}|============',
-          );
-          methodPrint(
-            '============|${state.userModel.imageUrl}|============',
-          );
+
           return Column(
             children: [
               SizedBox(
@@ -134,90 +116,93 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                   ),
                   child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          width: double.infinity,
-                        ),
-                        Text(
-                          "Email: ${state.userModel.email}",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 18.w,
-                            fontWeight: FontWeight.w600,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            width: double.infinity,
                           ),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Text(
-                          "Last name: ${state.userModel.lastname}",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 18.w,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Text(
-                          "First name: ${state.userModel.username}",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 18.w,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Text(
-                          "Phone number: ${state.userModel.phoneNumber}",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 18.w,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                    SizedBox(height: 150,),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              RouteNames.securityRoute,
-                            );
-                          },
-                          child: Container(
-                            width: width,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8.w,
-                              vertical: 4.w,
+                          Text(
+                            "Email: ${state.userModel.email}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.w,
+                              fontWeight: FontWeight.w600,
                             ),
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(
-                                8,
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Text(
+                            "Last name: ${state.userModel.lastname}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.w,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Text(
+                            "First name: ${state.userModel.username}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.w,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Text(
+                            "Phone number: ${state.userModel.phoneNumber}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.w,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 150.h,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                RouteNames.securityRoute,
+                              );
+                            },
+                            child: Container(
+                              width: width,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 4.w,
                               ),
-                              border: Border.all(
-                                width: 3.w,
-                                color: AppColors.black.withOpacity(
-                                  0.4,
+                              decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(
+                                  8.w,
+                                ),
+                                border: Border.all(
+                                  width: 3.w,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              child: Text(
+                                "Security",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 24.w,
                                 ),
                               ),
                             ),
-                            child: Text(
-                              "Security",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: AppColors.black,
-                                fontSize: 24.w,
-                              ),
-                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -5,4 +5,5 @@ enum FormStatus {
   loading,
   unauthenticated,
   authenticated,
+  showMessage,
 }
